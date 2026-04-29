@@ -22,15 +22,12 @@ const protectRoute = async (req, res, next) => {
     }
 
     // Make sure your JWT payload actually has "userId"
-    const user = await User.findById(decoded.userId).select("-password");
-
+    const user = await User.findById(decoded.id).select("-password");
     if (!user) {
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Unauthorized access: No user found",
-        });
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized access: No user found",
+      });
     }
 
     req.user = user;
